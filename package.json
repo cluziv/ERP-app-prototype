@@ -1,0 +1,47 @@
+{
+  "name": "hardware-erp-desktop",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Hardware ERP - Wholesale & Retail Management System",
+  "author": "Hardware ERP",
+  "main": "dist-electron/main.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "node -e \"const fs=require('fs'); ['dist','dist-electron','release'].forEach(d => fs.rmSync(d, {recursive:true,force:true}));\"",
+    "lint": "tsc --noEmit",
+    "build:electron:main": "esbuild electron/main.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist-electron/main.cjs --external:electron",
+    "build:electron:preload": "esbuild electron/preload.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist-electron/preload.cjs --external:electron",
+    "build:electron:compile": "npm run build:electron:main && npm run build:electron:preload",
+    "build:all": "npm run build && npm run build:electron:compile",
+    "build:installer": "electron-builder --win",
+    "build:electron": "npm run build:all && npm run build:installer && node scripts/copy-installer.cjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "dotenv": "^17.2.3",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "recharts": "^3.10.1",
+    "vite": "^8.3.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@rolldown/binding-win32-x64-msvc": "^1.2.16",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.4.21",
+    "electron": "^29.4.6",
+    "electron-builder": "^24.13.3",
+    "esbuild": "^0.28.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.2"
+  }
+}
